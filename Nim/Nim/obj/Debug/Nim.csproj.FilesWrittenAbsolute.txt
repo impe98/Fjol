@@ -1,0 +1,5 @@
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/obj/Debug/.NETFramework,Version=v4.5.1.AssemblyAttribute.cs
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/bin/Debug/Nim.exe.mdb
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/bin/Debug/Nim.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/obj/Debug/Nim.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/obj/Debug/Nim.exe.mdb

@@ -1,0 +1,10 @@
+/home/torben/Downloads/Datalogi/Frivillig/Simon/Simon/obj/Debug/.NETFramework,Version=v4.5.1.AssemblyAttribute.cs
+/home/torben/Downloads/Datalogi/Frivillig/Simon/Simon/bin/Debug/Simon.exe.mdb
+/home/torben/Downloads/Datalogi/Frivillig/Simon/Simon/bin/Debug/Simon.exe
+/home/torben/Downloads/Datalogi/Frivillig/Simon/Simon/obj/Debug/Simon.exe
+/home/torben/Downloads/Datalogi/Frivillig/Simon/Simon/obj/Debug/Simon.exe.mdb
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/obj/Debug/.NETFramework,Version=v4.5.1.AssemblyAttribute.cs
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/bin/Debug/Simon.exe.mdb
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/bin/Debug/Simon.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/obj/Debug/Simon.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/obj/Debug/Simon.exe.mdb

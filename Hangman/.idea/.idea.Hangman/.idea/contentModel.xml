@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.Rider2017.3/system/resharper-host/local/Transient/ReSharperHost/v11/SolutionCaches/_Hangman.-7405134.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="Hangman" t="IncludeRecursive">
+        <e p="Hangman.csproj" t="IncludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Tests.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+      </e>
+      <e p="Hangman.sln" t="IncludeFlat" />
+      <e p="Hangman2" t="IncludeRecursive">
+        <e p="Hangman2.csproj" t="IncludeRecursive" />
+        <e p="PlayGame.cs" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="WordFinder.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

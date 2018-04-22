@@ -8,9 +8,24 @@ namespace Nim {
         public static int round = 1;
         public bool gameIsPlaying = true;
         public static int[] arrayOfHeaps;
+        public static bool correctGameType = false;
+        public static string gameType;
+        public static int intForTurn = 0;
 
         public static int[] InitializeHeaps() {
             Console.WriteLine("Welcome to Nim!");
+            Console.WriteLine("Will you be playing multiplayer og singleplayer?");
+            Console.WriteLine("write sp for singleplayer and mp for multiplayer");
+            while (correctGameType == false) {
+                string temp = Console.ReadLine();
+                if (temp != "sp" && temp != "mp") {
+                    Console.WriteLine("Illegal input, type sp for singleplayer and mp for mulltiplayer");
+                }
+                else {
+                    gameType = temp;
+                    correctGameType = true;
+                }
+            }
             Console.WriteLine("Who will be playing?");
             Console.WriteLine("Please give name of player one: ");
             playerOne = Console.ReadLine();
@@ -40,6 +55,12 @@ namespace Nim {
 
         public static void TakeMatches(int c, int i) {
             Console.WriteLine("\n");
+            if (arrayOfHeaps[c] == 0) {
+                Console.WriteLine("You can't take mathes from an empty heap");
+                round--;
+                intForTurn--;
+                TakeTurn();
+            }
             if (arrayOfHeaps[c] - i > 0) {
                 arrayOfHeaps.SetValue((arrayOfHeaps[c] - (i + 1)), c);
             }
@@ -61,16 +82,40 @@ namespace Nim {
         }
 
         public static void TakeTurn() {
-            Console.WriteLine("The current turn belongs to {0}", WhoseTurnIsIt());
-            Console.WriteLine("Please give a heap to take matches from: ");
-            int chosenHeap = Convert.ToInt32(Console.ReadLine()) - 1;
-            Console.WriteLine("Please specify the amount of matches to take: ");
-            int chosenMatches = Convert.ToInt32(Console.ReadLine()) -1;
-            if (IsCorrectIndex(chosenHeap) && IsCorrectAmountOfMatches(chosenMatches)) {
-                TakeMatches(chosenHeap, chosenMatches);
+            if (gameType == "sp") {
+                Console.WriteLine("The current turn belongs to {0}", WhoseTurnIsIt());
+                Console.WriteLine("Please give a heap to take matches from: ");
+                int chosenHeap = Convert.ToInt32(Console.ReadLine()) - 1;
+                Console.WriteLine("Please specify the amount of matches to take: ");
+                int chosenMatches = Convert.ToInt32(Console.ReadLine()) -1;
+                if (IsCorrectIndex(chosenHeap) && IsCorrectAmountOfMatches(chosenMatches)) {
+                    TakeMatches(chosenHeap, chosenMatches);
+                }
+                else {
+                    TakeTurn();
+                }
             }
             else {
-                TakeTurn();
+                if (intForTurn % 2 == 0) {
+                    Console.WriteLine("The current turn belongs to {0}", WhoseTurnIsIt());
+                    Console.WriteLine("Please give a heap to take matches from: ");
+                    int chosenHeap = Convert.ToInt32(Console.ReadLine()) - 1;
+                    Console.WriteLine("Please specify the amount of matches to take: ");
+                    int chosenMatches = Convert.ToInt32(Console.ReadLine()) -1;
+                    if (IsCorrectIndex(chosenHeap) && IsCorrectAmountOfMatches(chosenMatches)) {
+                        intForTurn++;
+                        TakeMatches(chosenHeap, chosenMatches);
+                    }
+                    else {
+                        TakeTurn();
+                    }
+                }
+                else {
+                    Console.WriteLine("Mp godkendt");
+                    round++;
+                    intForTurn++;
+                    ComputerTurnRandom();
+                }
             }
 
         }
@@ -133,6 +178,13 @@ namespace Nim {
 
             round++;
             return playerOne;
+        }
+
+        public static void ComputerTurnRandom() {
+            Random rnd = new Random();
+            int rndHeap = rnd.Next(arrayOfHeaps.Length);
+            int rndMatches = rnd.Next(1, 4);
+            TakeMatches(rndHeap, rndMatches);
         }
         
     }

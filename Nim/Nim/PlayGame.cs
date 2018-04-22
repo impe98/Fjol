@@ -5,7 +5,7 @@ namespace Nim {
     public class PlayGame {
         public static string playerOne;
         public static string playerTwo;
-        public static int round = 0;
+        public static int round = 1;
         public bool gameIsPlaying = true;
         public static int[] arrayOfHeaps;
 
@@ -18,9 +18,11 @@ namespace Nim {
             playerTwo = Console.ReadLine();
             Console.WriteLine("Please give an amount of heaps to initialize: ");
             int amountOfHeaps = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("The game will be played with {0} heaps!", amountOfHeaps);
             Console.WriteLine("\n");
             Console.WriteLine("Please give an amount of matches for each heap to have: ");
             int amountOfMatches = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Each heap will have {0} matches and the game is set!", amountOfMatches);
             arrayOfHeaps = new int[amountOfHeaps];
             Console.WriteLine("\n");
             for (int i = 0; i < arrayOfHeaps.Length; i++) {
@@ -38,8 +40,8 @@ namespace Nim {
 
         public static void TakeMatches(int c, int i) {
             Console.WriteLine("\n");
-            if (arrayOfHeaps[c] - i >= 0) {
-                arrayOfHeaps.SetValue((arrayOfHeaps[c] - i), c);
+            if (arrayOfHeaps[c] - i > 0) {
+                arrayOfHeaps.SetValue((arrayOfHeaps[c] - (i + 1)), c);
             }
             else {
                 arrayOfHeaps.SetValue(0, c);
@@ -50,7 +52,8 @@ namespace Nim {
             }
 
             if (IsGameOver()) {
-                Console.WriteLine("Game over!");
+                
+                Console.WriteLine("Game over! The winner is {0}, congratulations!", WhoseTurnIsIt());
             }
             else {
                 TakeTurn();
@@ -58,10 +61,11 @@ namespace Nim {
         }
 
         public static void TakeTurn() {
+            Console.WriteLine("The current turn belongs to {0}", WhoseTurnIsIt());
             Console.WriteLine("Please give a heap to take matches from: ");
-            int chosenHeap = Convert.ToInt32(Console.ReadLine());
+            int chosenHeap = Convert.ToInt32(Console.ReadLine()) - 1;
             Console.WriteLine("Please specify the amount of matches to take: ");
-            int chosenMatches = Convert.ToInt32(Console.ReadLine());
+            int chosenMatches = Convert.ToInt32(Console.ReadLine()) -1;
             if (IsCorrectIndex(chosenHeap) && IsCorrectAmountOfMatches(chosenMatches)) {
                 TakeMatches(chosenHeap, chosenMatches);
             }
@@ -88,13 +92,15 @@ namespace Nim {
 
         public static bool IsCorrectIndex(int i) {
             if (i < 0) {
-                Console.WriteLine("Illegal input, please specify heap by giving the correspondent number from 0 to {0}",
+                Console.WriteLine("Illegal input, please specify heap by giving the correspondent number from 1 to {0} \n",
                     arrayOfHeaps.Length - 1);
+                round--;
                 return false;
             }
             else if (i > arrayOfHeaps.Length - 1) {
-                Console.WriteLine("Illegal input, please specify heap by giving the correspondent number from 0 to {0}",
+                Console.WriteLine("Illegal input, please specify heap by giving the correspondent number from 1 to {0} \n",
                     arrayOfHeaps.Length - 1);
+                round--;
                 return false;
             }
             else {
@@ -104,7 +110,13 @@ namespace Nim {
 
         public static bool IsCorrectAmountOfMatches(int i) {
             if (i < 0) {
-                Console.WriteLine("Amount of matches to be taken cannot be none negative");
+                Console.WriteLine("Amount of matches to be taken cannot be negative nor zero \n");
+                round--;
+                return false;
+            }
+            else if (i >= 3) {
+                Console.WriteLine("You can only take 1, 2 or 3 mathces \n");
+                round--;
                 return false;
             }
             else {
@@ -113,12 +125,15 @@ namespace Nim {
             
         }
 
-        public static string WhichTurnIsIt() {
+        public static string WhoseTurnIsIt() {
             if (round % 2 == 0) {
+                round++;
                 return playerTwo;
             }
 
+            round++;
             return playerOne;
         }
+        
     }
 }

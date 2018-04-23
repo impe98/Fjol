@@ -82,7 +82,7 @@ namespace Nim {
         }
 
         public static void TakeTurn() {
-            if (gameType == "sp") {
+            if (gameType == "mp") {
                 Console.WriteLine("The current turn belongs to {0}", WhoseTurnIsIt());
                 Console.WriteLine("Please give a heap to take matches from: ");
                 int chosenHeap = Convert.ToInt32(Console.ReadLine()) - 1;
@@ -111,7 +111,7 @@ namespace Nim {
                     }
                 }
                 else {
-                    Console.WriteLine("Mp godkendt");
+                    
                     round++;
                     intForTurn++;
                     ComputerTurnRandom();
@@ -172,6 +172,7 @@ namespace Nim {
 
         public static string WhoseTurnIsIt() {
             if (round % 2 == 0) {
+
                 round++;
                 return playerTwo;
             }

@@ -184,7 +184,7 @@ namespace Nim {
         public static void ComputerTurnRandom() {
             Random rnd = new Random();
             int rndHeap = rnd.Next(arrayOfHeaps.Length);
-            int rndMatches = rnd.Next(1, 4);
+            int rndMatches = rnd.Next(1, 3);
             TakeMatches(rndHeap, rndMatches);
         }
         

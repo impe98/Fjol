@@ -1,0 +1,6 @@
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/bin/Debug/Nim.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/bin/Debug/Nim.pdb
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/obj/Debug/Nim.csprojResolveAssemblyReference.cache
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/obj/Debug/Nim.csproj.CoreCompileInputs.cache
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/obj/Debug/Nim.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Nim/Nim/obj/Debug/Nim.pdb

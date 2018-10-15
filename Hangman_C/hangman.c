@@ -82,11 +82,9 @@ int findIndexInWord(char wordToGuess[], char c) {
   }
   for (int i = 0; i < lengthOfWordToGuess+1; i++) {
     if (wordToGuess[i] == c && arrayOfGuessedLetters[i] == '1') {
-      printf("Tal gættet rigtigt\n");
       return i;
     }
   }
-  printf("Tal gættes forkert\n");
   return -1;
 }
 

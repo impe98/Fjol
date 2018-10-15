@@ -1,0 +1,6 @@
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/bin/Debug/Simon.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/bin/Debug/Simon.pdb
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/obj/Debug/Simon.csprojResolveAssemblyReference.cache
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/obj/Debug/Simon.csproj.CoreCompileInputs.cache
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/obj/Debug/Simon.exe
+/home/torben/Downloads/Datalogi/Frivillig/Fjol/Simon/Simon/obj/Debug/Simon.pdb

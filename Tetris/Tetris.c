@@ -77,6 +77,46 @@ int insertL(char arr[HEIGHT][WIDTH], int y, int x) {
     arr[y+2][x+1] = '*';
     return 0;
 }
+// Inserts an inverse L with the given coordinates x and y 
+int insertInvL(char arr[HEIGHT][WIDTH], int y, int x) {
+    arr[y][x] = 'o';
+    arr[y+1][x] = 'o';
+    arr[y+2][x] = 'o';
+    arr[y+2][x-1] = 'o';
+    return 0;
+}
+
+// Inserts an s with the given coordinates x and y
+int insertS(char arr[HEIGHT][WIDTH], int y, int x) {
+    arr[y][x] = 'Q';
+    arr[y][x+1] = 'Q';
+    arr[y+1][x] = 'Q';
+    arr[y+1][x-1] = 'Q';
+    return 0;
+}
+
+int insertInvS(char arr[HEIGHT][WIDTH], int y, int x) {
+    arr[y][x] = 'D';
+    arr[y][x-1] = 'D';
+    arr[y+1][x] = 'D';
+    arr[y+1][x+1] = 'D';
+    return 0;
+}
+
+int insertLine(char arr[HEIGHT][WIDTH], int y, int x) {
+    arr[y][x] = '|';
+    arr[y+1][x] = '|';
+    arr[y+2][x] = '|';
+    arr[y+3][x] = '|';
+    return 0;
+}
+int insertT(char arr[HEIGHT][WIDTH], int y, int x) {
+    arr[y][x] = '+';
+    arr[y+1][x] = '+';
+    arr[y+1][x+1] = '+';
+    arr[y+1][x-1] = '+';
+    return 0;
+}
 
 // Initalizes the map (I.E makes the borders of the game-board)
 void initMap(char map[HEIGHT][WIDTH]) {
@@ -111,40 +151,173 @@ int input(int c, int* y, int* x) {
 
 // Sets coordinates in the array OccFields as 1, to set them as occupied
 int insertOccField(int y, int x) {
-    if (isBlock == true) {
+    if (isBlock) {
         occFields[y][x] = '#';
         occFields[y][x+1] = '#';
         occFields[y+1][x] = '#';
         occFields[y+1][x+1] = '#';
         return 0;
     }
-    if (isL == true) {
+    else if (isL) {
         occFields[y][x] = '*';
         occFields[y+1][x] = '*';
         occFields[y+2][x] = '*';
         occFields[y+2][x+1] = '*';
         return 0;
     }
+    else if (isInvL) {
+        occFields[y][x] = 'o';
+        occFields[y+1][x] = 'o';
+        occFields[y+2][x] = 'o';
+        occFields[y+2][x-1] = 'o';
+        return 0;
+    }
+    else if (isS) {
+        occFields[y][x] = 'Q';
+        occFields[y][x+1] = 'Q';
+        occFields[y+1][x] = 'Q';
+        occFields[y+1][x-1] = 'Q';
+        return 0;   
+    }
+    else if (isInvS) {
+        occFields[y][x] = 'D';
+        occFields[y][x-1] = 'D';
+        occFields[y+1][x] = 'D';
+        occFields[y+1][x+1] = 'D';
+        return 0;
+    }
+    else if (isLine) {
+        occFields[y][x] = '|';
+        occFields[y+1][x] = '|';
+        occFields[y+2][x] = '|';
+        occFields[y+3][x] = '|';
+        return 0;
+    }
+    else if (isT) {
+        occFields[y][x] = '+';
+        occFields[y+1][x] = '+';
+        occFields[y+1][x+1] = '+';
+        occFields[y+1][x-1] = '+';
+        return 0;
+    }
 }
-// Checks if given move is legal, if the current piece in play is a block
-bool isLegalMoveBlock(int c, int y, int x) {
-    if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0) 
+// Checks if given move is legal, depending on the current block in play
+
+bool isLegalMove(int c, int y, int x) {
+    if (isBlock) {
+        if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0) 
              || (c == 115 && y < 22 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0)
              || (c == 100 && x < 22 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0)) {
                  return true;
              }
-    return false;
-}
-// checks if given move is legal, if the current piece in play is an L
-bool isLegalMoveL(int c, int y, int x) {
-    if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0 && occFields[y+2][x-1] == 0) 
-    || (c == 115 && y < 21 && occFields[y+3][x] && occFields[y+3][x+1] == 0)
+        else {
+            return false;
+        }
+    }
+    else if (isL) {
+        if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0 && occFields[y+2][x-1] == 0) 
+    || (c == 115 && y < 21 && occFields[y+3][x] == 0 && occFields[y+3][x+1] == 0)
     || (c == 100 && x < 22 && occFields[y][x+2] == 0)) {
         return true;
+         }
+    else {
+        return false;
+        }
+    }
+    else if (isInvL) {
+        if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0 && occFields[y+2][x-2] == 0)
+    || (c == 115 && y < 21 && occFields[y+3][x] == 0 && occFields[y+3][x-1] == 0)
+    || (c == 100 && x < 22 && occFields[y][x-2] == 0)) {
+        return true;
+         }
+    else {
+        return false;
+        }
+    }
+    else if (isS) {
+        if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0)
+        || (c == 115 && y < 22 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0 && occFields[y+2][x-1] == 0)
+        || (c == 100 && x < 22 && occFields[y][x+1] == 0)) {
+            return true;
+             }
+        else {
+            return false;
+             }
+        }
+    else if (isInvS) {
+        if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0) 
+        || (c == 115 && y < 22 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0 && occFields[y+2][x-1] == 0)
+        || (c == 100 && x < 22 && occFields[y][x+1] == 0)) {
+            return true;
+        }
+    }
+    else if (isLine) {
+        if ((c == 97 && x > 1 && occFields[y][x-1] == 0)
+        || (c == 115 && y < 22 && occFields[y+4][x] == 0)
+        || (c == 100 && x < 22 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0 && occFields[y+2][x+1] == 0 && occFields[y+3][x] == 0)) {
+            return true;
+        }
+    }
+    else if (isT) {
+        if ((c == 97 && x > 1 && occFields[y][x-1] == 0)
+        || (c == 115 && y < 22 && occFields[y+4][x] == 0)
+        || (c == 100 && x < 22 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0 && occFields[y+2][x+1] == 0 && occFields[y+3][x] == 0)) {
+            return true;
+        }
     }
     return false;
 }
+// Checks if a new block should come into play
+// y+n must part of the whole expansion
+bool shallGetNewBlock(int y, int x) {
+    if (((y+2 >= 26 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0)) && isBlock)) || 
+            ((y+3 >= 26 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0)) && isL)) ||
+            ((y+3 >= 26 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0)) && isInvL)) ||
+            ((y+2 >= 26 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0)) && isS)) ||
+            ((y+2 >= 26 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0)) && isInvS)) ||
+            ((y+4 >= 26 || ((occFields[y+4][x] != 0)) && isLine))||
+            ((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))) {
+                return true;
+            }
+    else {
+        return false;
+    }
+}
 
+void setAllFalse() {
+    isBlock = false;
+    isL = false;
+    isInvL = false;
+    isS = false;
+    isInvS = false;
+    isLine = false;
+    isT = false;
+}
+
+void insertBlock(char map[HEIGHT][WIDTH], int y, int x) {
+    if (isBlock) {
+        insertBox(map, y, x);
+    }
+    else if (isL) {
+        insertL(map, y, x);
+        }
+    else if (isInvL) {
+        insertInvL(map, y, x);
+    }
+    else if (isS) {
+        insertS(map, y, x);
+    }
+    else if (isInvS) {
+        insertInvS(map, y, x);
+    }
+    else if (isLine) {
+        insertLine(map, y, x);
+    }
+    else if (isT) {
+        insertT(map, y, x);
+    }
+}
+// NOTE TO SELF: CHECK COLISION
 // The main game-loop
 int main() {
     enableRawMode();
@@ -154,26 +327,19 @@ int main() {
     int x = 10;
     //int coord3 = 0;
     //int coord4 = 0;
-    int s = 500000;
+    int s = 300000;
     bool shallPlay = true;
     char command[6] = "clear";
     int w;
-    bool t = true;
     bool getNewBlock = false;
     unsigned int r;
     // When this loop terminates, the game is over
     while (shallPlay == true) {
-        isBlock = false;
-        isL = false;
-        isInvL = false;
-        isS = false;
-        isInvS = false;
-        isLine = false;
-        isT = false;
         // getNewBlock = false;
+        setAllFalse();
         time_t t;
         srand((unsigned) time(&t));
-        r = rand() % 2;
+        r = rand() % 7;
         printf("r is: %d", r);
         switch(r) {
             case 0:
@@ -182,7 +348,6 @@ int main() {
             case 1:
                  isL = true;
                 break;
-            /*
             case 2:
                 isInvL = true;
                 break;
@@ -198,50 +363,36 @@ int main() {
             case 6: 
                 isT = true;
                 break;
-            */
            default:
                 printf("This shold not happen");
                 break;
             }
-        y = 5;
-        x = 5;
+        y = 10;
+        x = 10;
         getNewBlock = false;
         // When this loop terminates, the given block is done and a new must be initialized
-        while (getNewBlock == false) {
+        // Make one function insertPiece to call?
+        while (!getNewBlock) {
             system(command);
             initMap(map);
-            if (isBlock == true) {
-                insertBox(map, y, x);
-            }
-            if (isL == true) {
-                insertL(map, y, x);
-            }
+            insertBlock(map, y, x);
             printArr(map);
-            if (y < 22) {
+            if ((y < 25 && isBlock) || (y < 25 && isL) || (y < 25 && isInvL) || (y < 25 && isS) || (y < 25 && isInvS) || (y < 25 && isLine) || (y < 25 && isT)) {
               input(115, &y, &x);
             }
             initscr();
             timeout(0);
             c = getch();
             endwin();
-            if (isLegalMoveBlock(c, y, x) && isBlock) {
+            if (isLegalMove(c,y,x)) {
                 input(c, &y, &x);
             }
-            if (isLegalMoveL(c, y, x) && isL) {
-                input(c, &y, &x);
-            }
-            if ((y >= 22 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0) && isBlock == true))
-            || (y >= 22 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0) && isL == true))) {
+            if (shallGetNewBlock(y, x)) {
                 getNewBlock = true;
                 insertOccField(y, x);
             }
             initMap(map);
-            if (isBlock == true) {
-                insertBox(map, y, x);
-            }
-            if (isL == true) {
-                insertL(map, y, x);
-            }
+            insertBlock(map, y, x);
             system(command);
             printArr(map);
             wait(s);

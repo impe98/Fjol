@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
 int findIndexInWord(char wordToGuess[], char c);
 bool isAllZeroes(char wordToCheck[]);
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]) {
   int pickWord = rand() % numberOfWords;
   char *wordPlayed = words[pickWord];
   int lengthOfWord;
-  for (int j = 0; wordPlayed[j] != NULL; j++) {
+  for (int j = 0; wordPlayed[j] != 0x00; j++) {
     lengthOfWord = j+1;
   }
   arrayOfGuessedLetters[lengthOfWord];
@@ -77,7 +78,7 @@ int main(int argc, char *argv[]) {
 
 int findIndexInWord(char wordToGuess[], char c) {
   int lengthOfWordToGuess;
-  for (int i = 0; wordToGuess[i] != NULL; i++) {
+  for (int i = 0; wordToGuess[i] != 0x00; i++) {
     lengthOfWordToGuess = i;
   }
   for (int i = 0; i < lengthOfWordToGuess+1; i++) {
@@ -90,7 +91,7 @@ int findIndexInWord(char wordToGuess[], char c) {
 
 bool isAllZeroes(char wordToCheck[]) {
   int lengthOfWordToCheck;
-  for (int i = 0; wordToCheck[i] != NULL; i++) {
+  for (int i = 0; wordToCheck[i] != 0x00; i++) {
     lengthOfWordToCheck = i+1;
   }
   int numberOfZeroes = 0;

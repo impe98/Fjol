@@ -236,7 +236,7 @@ bool isLegalMove(int c, int y, int x) {
     }
     else if (isS) {
         if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0)
-        || (c == 115 && y < 22 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0 && occFields[y+2][x-1] == 0)
+        || (c == 115 && y < 22 && occFields[y+1][x] == 0 && occFields[y+1][x+1] == 0 && occFields[y+1][x-1] == 0)
         || (c == 100 && x < 22 && occFields[y][x+1] == 0)) {
             return true;
              }
@@ -246,7 +246,7 @@ bool isLegalMove(int c, int y, int x) {
         }
     else if (isInvS) {
         if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0) 
-        || (c == 115 && y < 22 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0 && occFields[y+2][x-1] == 0)
+        || (c == 115 && y < 22 && occFields[y+1][x] == 0 && occFields[y+1][x+1] == 0 && occFields[y+1   ][x-1] == 0)
         || (c == 100 && x < 22 && occFields[y][x+1] == 0)) {
             return true;
         }
@@ -270,13 +270,13 @@ bool isLegalMove(int c, int y, int x) {
 // Checks if a new block should come into play
 // y+n must part of the whole expansion
 bool shallGetNewBlock(int y, int x) {
-    if (((y+2 >= 26 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0)) && isBlock)) || 
-            ((y+3 >= 26 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0)) && isL)) ||
-            ((y+3 >= 26 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0)) && isInvL)) ||
-            ((y+2 >= 26 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0)) && isS)) ||
-            ((y+2 >= 26 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0)) && isInvS)) ||
-            ((y+4 >= 26 || ((occFields[y+4][x] != 0)) && isLine))||
-            ((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))) {
+    if (((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) && isBlock))) || 
+            ((((y+3 >= 24 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0))) && isL))) ||
+            ((((y+3 >= 24 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0))) && isInvL))) ||
+            ((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0))) && isS))) ||
+            ((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0))) && isInvS))) ||
+            ((((y+4 >= 24 || ((occFields[y+4][x] != 0))) && isLine)))||
+            ((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))))) {
                 return true;
             }
     else {
@@ -327,7 +327,7 @@ int main() {
     int x = 10;
     //int coord3 = 0;
     //int coord4 = 0;
-    int s = 300000;
+    int s = 100000;
     bool shallPlay = true;
     char command[6] = "clear";
     int w;
@@ -367,7 +367,7 @@ int main() {
                 printf("This shold not happen");
                 break;
             }
-        y = 10;
+        y = 5;
         x = 10;
         getNewBlock = false;
         // When this loop terminates, the given block is done and a new must be initialized
@@ -377,7 +377,7 @@ int main() {
             initMap(map);
             insertBlock(map, y, x);
             printArr(map);
-            if ((y < 25 && isBlock) || (y < 25 && isL) || (y < 25 && isInvL) || (y < 25 && isS) || (y < 25 && isInvS) || (y < 25 && isLine) || (y < 25 && isT)) {
+            if ((y < 26 && isBlock) || (y < 25 && isL) || (y < 25 && isInvL) || (y < 26 && isS) || (y < 26 && isInvS) || (y < 24 && isLine) || (y < 26 && isT)) {
               input(115, &y, &x);
             }
             initscr();

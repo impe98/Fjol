@@ -43,7 +43,7 @@ void enableRawMode() {
 }
 
 // Declare turn function
-void turn();
+int turn(int c);
 
 // Declare turnBlock function
 void turnBlock(int y, int x);
@@ -189,26 +189,110 @@ int insertS(char arr[HEIGHT][WIDTH], int y, int x) {
 }
 
 int insertInvS(char arr[HEIGHT][WIDTH], int y, int x) {
-    arr[y][x] = 'D';
-    arr[y][x-1] = 'D';
-    arr[y+1][x] = 'D';
-    arr[y+1][x+1] = 'D';
-    return 0;
+    switch(turnCount) {
+            case 0:
+                arr[y][x] = 'D';
+                arr[y][x-1] = 'D';
+                arr[y+1][x] = 'D';
+                arr[y+1][x+1] = 'D';
+                break;
+                return 0;
+            case 1:
+                arr[y][x+1] = 'D';
+                arr[y+1][x] = 'D';
+                arr[y][x] = 'D';
+                arr[y-1][x+1] = 'D';
+                break;
+                return 0;
+            case 2:
+                arr[y][x] = 'D';
+                arr[y][x-1] = 'D';
+                arr[y+1][x] = 'D';
+                arr[y+1][x+1] = 'D';
+                break;
+                return 0;
+            case 3:
+                arr[y][x+1] = 'D';
+                arr[y+1][x] = 'D';
+                arr[y][x] = 'D';
+                arr[y-1][x+1] = 'D';
+                break;
+                return 0;
+            default:
+                break;
+                return 1;
+        }
 }
 
 int insertLine(char arr[HEIGHT][WIDTH], int y, int x) {
-    arr[y][x] = '|';
-    arr[y+1][x] = '|';
-    arr[y+2][x] = '|';
-    arr[y+3][x] = '|';
-    return 0;
+   switch(turnCount) {
+            case 0:
+                arr[y][x] = '|';
+                arr[y+1][x] = '|';
+                arr[y+2][x] = '|';
+                arr[y+3][x] = '|';
+                break;
+                return 0;
+            case 1:
+                arr[y+3][x+3] = '|';
+                arr[y+3][x+2] = '|';
+                arr[y+3][x+1] = '|';
+                arr[y+3][x] = '|';
+                break;
+                return 0;
+            case 2:
+                arr[y][x] = '|';
+                arr[y+1][x] = '|';
+                arr[y+2][x] = '|';
+                arr[y+3][x] = '|';
+                break;
+                return 0;
+            case 3:
+                arr[y+3][x+3] = '|';
+                arr[y+3][x+2] = '|';
+                arr[y+3][x+1] = '|';
+                arr[y+3][x] = '|';
+                break;
+                return 0;
+            default:  
+                break;
+                return 1;
+    }
 }
 int insertT(char arr[HEIGHT][WIDTH], int y, int x) {
-    arr[y][x] = '+';
-    arr[y+1][x] = '+';
-    arr[y+1][x+1] = '+';
-    arr[y+1][x-1] = '+';
-    return 0;
+    switch(turnCount) {
+        case 0:
+            arr[y][x] = '+';
+            arr[y+1][x] = '+';
+            arr[y+1][x+1] = '+';
+            arr[y+1][x-1] = '+';
+            break;
+            return 0;
+        case 1:
+            arr[y+1][x+1] = '+';
+            arr[y+1][x] = '+';
+            arr[y][x] = '+';
+            arr[y+2][x] = '+';
+            break;
+            return 0;
+        case 2:
+            arr[y+2][x] = '+';
+            arr[y+1][x] = '+';
+            arr[y+1][x+1] = '+';
+            arr[y+1][x-1] = '+';
+            break;
+            return 0;
+        case 3:
+            arr[y+1][x-1] = '+';
+            arr[y+1][x] = '+';
+            arr[y+2][x] = '+';
+            arr[y][x] = '+';
+            break;
+            return 0;
+        default:
+            break;
+            return 1;
+    }
 }
 
 // Initalizes the map (I.E makes the borders of the game-board)
@@ -237,8 +321,8 @@ int input(int c, int* y, int* x) {
         (*x)++;
         return 0;
     }
-    else if (c == 108) {
-        turn();
+    else if (c == 108 || c == 107) {
+        turn(c);
     }
     else {
         return 1;
@@ -361,25 +445,109 @@ int insertOccField(int y, int x) {
         }
     }
     else if (isInvS) {
-        occFields[y][x] = 'D';
-        occFields[y][x-1] = 'D';
-        occFields[y+1][x] = 'D';
-        occFields[y+1][x+1] = 'D';
-        return 0;
+        switch(turnCount) {
+            case 0:
+                occFields[y][x] = 'D';
+                occFields[y][x-1] = 'D';
+                occFields[y+1][x] = 'D';
+                occFields[y+1][x+1] = 'D';
+                break;
+                return 0;
+            case 1:
+                occFields[y][x+1] = 'D';
+                occFields[y+1][x] = 'D';
+                occFields[y][x] = 'D';
+                occFields[y-1][x+1] = 'D';
+                break;
+                return 0;
+            case 2:
+                occFields[y][x] = 'D';
+                occFields[y][x-1] = 'D';
+                occFields[y+1][x] = 'D';
+                occFields[y+1][x+1] = 'D';
+                break;
+                return 0;
+            case 3:
+                occFields[y][x+1] = 'D';
+                occFields[y+1][x] = 'D';
+                occFields[y][x] = 'D';
+                occFields[y-1][x+1] = 'D';
+                break;
+                return 0;
+            default:
+                break;
+                return 1;
+        }
     }
     else if (isLine) {
-        occFields[y][x] = '|';
-        occFields[y+1][x] = '|';
-        occFields[y+2][x] = '|';
-        occFields[y+3][x] = '|';
-        return 0;
+        switch(turnCount) {
+            case 0:
+                occFields[y][x] = '|';
+                occFields[y+1][x] = '|';
+                occFields[y+2][x] = '|';
+                occFields[y+3][x] = '|';
+                break;
+                return 0;
+            case 1:
+                occFields[y+3][x+3] = '|';
+                occFields[y+3][x+2] = '|';
+                occFields[y+3][x+1] = '|';
+                occFields[y+3][x] = '|';
+                break;
+                return 0;
+            case 2:
+                occFields[y][x] = '|';
+                occFields[y+1][x] = '|';
+                occFields[y+2][x] = '|';
+                occFields[y+3][x] = '|';
+                break;
+                return 0;
+            case 3:
+                occFields[y+3][x+3] = '|';
+                occFields[y+3][x+2] = '|';
+                occFields[y+3][x+1] = '|';
+                occFields[y+3][x] = '|';
+                break;
+                return 0;
+            default:  
+                break;
+                return 1;
+        }
     }
     else if (isT) {
-        occFields[y][x] = '+';
-        occFields[y+1][x] = '+';
-        occFields[y+1][x+1] = '+';
-        occFields[y+1][x-1] = '+';
-        return 0;
+        switch(turnCount) {
+            case 0:
+                occFields[y][x] = '+';
+                occFields[y+1][x] = '+';
+                occFields[y+1][x+1] = '+';
+                occFields[y+1][x-1] = '+';
+                break;
+                return 0;
+            case 1:
+                occFields[y+1][x+1] = '+';
+                occFields[y+1][x] = '+';
+                occFields[y][x] = '+';
+                occFields[y+2][x] = '+';
+                break;
+                return 0;
+            case 2:
+                occFields[y+2][x] = '+';
+                occFields[y+1][x] = '+';
+                occFields[y+1][x+1] = '+';
+                occFields[y+1][x-1] = '+';
+                break;
+                return 0;
+            case 3:
+                occFields[y+1][x-1] = '+';
+                occFields[y+1][x] = '+';
+                occFields[y+2][x] = '+';
+                occFields[y][x] = '+';
+                break;
+                return 0;
+            default:
+                break;
+                return 1;
+        }
     }
 }
 
@@ -402,7 +570,7 @@ bool isLegalMove(int c, int y, int x) {
     || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0)) {
         return true;
      }
-     else if (c == 108) {
+     else if (c == 108 || c == 107) {
          return true;
      }
     else {
@@ -415,7 +583,7 @@ bool isLegalMove(int c, int y, int x) {
     || (c == 100 && x < WIDTH-3 && occFields[y][x-2] == 0)) {
         return true;
          }
-    else if (c == 108) {
+    else if (c == 108 || c == 107) {
         return true;
     }
     else {
@@ -428,7 +596,7 @@ bool isLegalMove(int c, int y, int x) {
         || (c == 100 && x < WIDTH-3 && occFields[y][x+1] == 0)) {
             return true;
              }
-        else if (c == 108) {
+        else if (c == 108 || c == 107) {
             return true;
         }
         else {
@@ -441,11 +609,17 @@ bool isLegalMove(int c, int y, int x) {
         || (c == 100 && x < WIDTH-3 && occFields[y][x+1] == 0)) {
             return true;
         }
+        else if (c == 108 || c == 107) {
+            return true;
+        }
     }
     else if (isLine) {
         if ((c == 97 && x > 1 && occFields[y+1][x-2] == 0)
         || (c == 115 && y < HEIGHT-3 && occFields[y+5][x] == 0)
         || (c == 100 && x < WIDTH-3 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0 && occFields[y+2][x+1] == 0 && occFields[y+3][x] == 0)) {
+            return true;
+        }
+        else if (c == 108 || c == 107) {
             return true;
         }
     }
@@ -455,10 +629,15 @@ bool isLegalMove(int c, int y, int x) {
         || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0 && occFields[y+1][x+2] == 0 && occFields[y+2][x+2] == 0 && occFields[y+3][x] == 0)) {
             return true;
         }
+        else if (c == 108 || c == 107) {
+            return true;
+        }
     }
     return false;
 }
-// Checks if a new block should come into play
+// Checks if a new block should come into play, which it shall if
+// the block in play has "landed" on another block or 
+// at the bottom of the map
 bool shallGetNewBlock(int y, int x) {
     if (isBlock) {
         if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) {
@@ -486,7 +665,7 @@ bool shallGetNewBlock(int y, int x) {
                 break;
                 return false;
             case 3:
-                if ((y+3 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x+2])))) {
+                if ((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0 || occFields[y+3][x+2])))) {
                     return true;
                 }
                 break;
@@ -557,13 +736,107 @@ bool shallGetNewBlock(int y, int x) {
                 return false;
         }
     }
-    if (((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) && isBlock))) || 
+    else if (isInvS) {
+        switch(turnCount) {
+            case 0:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0 || occFields[y+2][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 1:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 2:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0 || occFields[y+2][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 3:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            default:
+                break;
+                return false;
+        }
+    }
+    else if (isLine) {
+        switch(turnCount) {
+            case 0:
+                if (y+4 >= HEIGHT-1 || ((occFields[y+4][x] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 1:
+                if (y+4 >= HEIGHT -1 || ((occFields[y+4][x] != 0 || occFields[y+4][x+1] != 0 || occFields[y+4][x+2] != 0 || occFields[y+4][x+3] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 2:
+                if (y+4 >= HEIGHT-1 || ((occFields[y+4][x] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 3:
+                if (y+4 >= HEIGHT -1 || ((occFields[y+4][x] != 0 || occFields[y+4][x+1] != 0 || occFields[y+4][x+2] != 0 || occFields[y+4][x+3] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            default:
+                break;
+                return false;
+        }
+    }
+    else if (isT) {
+        switch(turnCount) {
+            case 0:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 1:
+                if (y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+1][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 2:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 3:
+                if (y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+2][x-1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            default:
+                break;
+                return false;
+        }
+    }
+    if ((y+2 >= HEIGHT-1 || (occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0) && isBlock))
             //((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0))) && isL))) ||
             //((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0))) && isInvL))) ||
             //((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+1][x+1] != 0))) && isS))) ||
-            ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0 || occFields[y+2][x+1] != 0))) && isInvS))) ||
-            ((((y+4 >= HEIGHT-1 || ((occFields[y+4][x] != 0))) && isLine)))||
-            ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))))) {
+           //((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0 || occFields[y+2][x+1] != 0))) && isInvS))) ||
+            //((((y+4 >= HEIGHT-1 || ((occFields[y+4][x] != 0))) && isLine)))||
+            //((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))))) 
+            {
                 return true;
             }
     else {
@@ -590,6 +863,7 @@ int deleteRows() {
     }
 }
 
+// All bools are set to false
 void setAllFalse() {
     isBlock = false;
     isL = false;
@@ -600,6 +874,7 @@ void setAllFalse() {
     isT = false;
 }
 
+// This function inserts a block into the array arr, which is to be printed
 void insertBlock(char map[HEIGHT][WIDTH], int y, int x) {
     if (isBlock) {
         insertBox(map, y, x);
@@ -623,13 +898,29 @@ void insertBlock(char map[HEIGHT][WIDTH], int y, int x) {
         insertT(map,  y, x);
     }
 }
-
-void turn() {
-    if (turnCount <= 2) {
-        turnCount++;
+// Increments or decreases the turnCount variable to determine the way in which 
+// the piece in play is rotated
+int turn(int c) {
+    if (c == 108) {
+        if (turnCount <= 2) {
+            turnCount++;
+            return 0;
+        }
+        else {
+            turnCount = 0;
+            return 0;
+        }
+    }
+    else if (c == 107) {
+        if (turnCount >= 1) {
+            turnCount--;
+        }
+        else {
+            turnCount = 3;
+        }
     }
     else {
-        turnCount = 0;
+        return 1;
     }
 }
 
@@ -653,7 +944,7 @@ int main() {
         setAllFalse();
         time_t t;
         srand((unsigned) time(&t));
-        r = rand() % 4;
+        r = rand() % 7;
         switch(r) {
             case 0:
                 isBlock = true;
@@ -667,7 +958,6 @@ int main() {
             case 3:
                 isS = true;
                 break;
-            /*
             case 4:
                 isInvS = true;
                 break;
@@ -677,7 +967,6 @@ int main() {
             case 6: 
                 isT = true;
                 break;
-            */
            default:
                 printf("This shold not happen");
                 break;

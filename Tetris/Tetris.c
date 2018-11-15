@@ -8,8 +8,8 @@
 #include <errno.h>
 #include <ctype.h>
 
-#define HEIGHT 25
-#define WIDTH 25
+#define HEIGHT 26
+#define WIDTH 26
 
 struct termios orig_termios;
 
@@ -22,7 +22,10 @@ bool isLine = false;
 bool isS = false;
 bool isInvS = false;
 
-// The array of occupyed fields - 0 means vacant; 1 means occupied
+// The turnCount is a global variable, which determines the way in which the current block is turned
+int turnCount = 0;
+
+// The array of occupyed fields - 0 means vacant; a char means occupied
 char occFields[HEIGHT][WIDTH] = {0};
 
 // Meant to disable raw-mode as to make usage of terminal bearable after each run
@@ -38,6 +41,12 @@ void enableRawMode() {
   raw.c_lflag &= ~(ECHO | ICANON);
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
+
+// Declare turn function
+void turn();
+
+// Declare turnBlock function
+void turnBlock(int y, int x);
 
 // A function which makes the program "sleep", I.E waits
 // for a designated amount of time before continuing excecution
@@ -74,7 +83,7 @@ int insertL(char arr[HEIGHT][WIDTH], int y, int x) {
     arr[y][x] = '*';
     arr[y+1][x] = '*';
     arr[y+2][x] = '*';
-    arr[y+2][x+1] = '*';
+    arr[y+2][x+1]   = '*';
     return 0;
 }
 // Inserts an inverse L with the given coordinates x and y 
@@ -132,7 +141,7 @@ void initMap(char map[HEIGHT][WIDTH]) {
         }
     }
 }
-// Moves the piece depending on input (only works for boxes as of yet?)
+// Moves the piece depending on input
 int input(int c, int* y, int* x) {
     if (c == 97) {
         (*x)--; 
@@ -144,13 +153,19 @@ int input(int c, int* y, int* x) {
         (*x)++;
         return 0;
     }
+    else if (c == 108) {
+        //turnBlock((*y), (*x));
+        turn();
+    }
     else {
         return 1;
     }
 }
 
-// Sets coordinates in the array OccFields as 1, to set them as occupied
+
+// Sets coordinates in the array OccFields as a char, to set them as occupied
 int insertOccField(int y, int x) {
+    int t = turnCount;
     if (isBlock) {
         occFields[y][x] = '#';
         occFields[y][x+1] = '#';
@@ -159,11 +174,39 @@ int insertOccField(int y, int x) {
         return 0;
     }
     else if (isL) {
-        occFields[y][x] = '*';
-        occFields[y+1][x] = '*';
-        occFields[y+2][x] = '*';
-        occFields[y+2][x+1] = '*';
-        return 0;
+        switch(t) {
+            case 0:
+                occFields[y][x] = '*';
+                occFields[y+1][x] = '*';
+                occFields[y+2][x] = '*';
+                occFields[y+2][x+1] = '*';
+                return 0;
+                break;
+            case 1:
+                occFields[y][x+2] = '*';
+                occFields[y][x+1] = '*';
+                occFields[y][x] = '*';
+                occFields[y+1][x] = '*';
+                return 0;
+                break;
+            case 2:
+                occFields[y+2][x+1] = '*';
+                occFields[y+1][x+1] = '*';
+                occFields[y][x+1] = '*';
+                occFields[y][x] = '*';
+                return 0;
+                break;
+            case 3:
+                occFields[y+2][x] = '*';
+                occFields[y+2][x+1] = '*';
+                occFields[y+2][x+2] = '*';
+                occFields[y+1][x+2] = '*';
+                return 0;
+                break;
+            default:
+                return 0;
+                break;
+        }
     }
     else if (isInvL) {
         occFields[y][x] = 'o';
@@ -201,33 +244,80 @@ int insertOccField(int y, int x) {
         return 0;
     }
 }
-// Checks if given move is legal, depending on the current block in play
+
+// Turns a block. turnCount is only incremented once the block has been turned.
+/*
+void turnBlock(int y, int x) {
+    int t = turnCount;
+    if (isBlock) {
+        return;
+    }
+    if (isL) {
+        switch(t) {
+            case 0: 
+                occFields[y][x+2] = '*';
+                occFields[y][x+1] = '*';
+                occFields[y][x] = '*';
+                occFields[y+1][x] = '*';
+                break;
+            case 1:
+                occFields[y+2][x+1] = '*';
+                occFields[y+1][x+1] = '*';
+                occFields[y][x+1] = '*';
+                occFields[y][x] = '*';
+                break;
+            case 2:
+                occFields[y+2][x] = '*';
+                occFields[y+2][x+1] = '*';
+                occFields[y+2][x+2] = '*';
+                occFields[y+1][x+2] = '*';
+                break;
+            case 3:
+                occFields[y][x] = '*';
+                occFields[y+1][x] = '*';
+                occFields[y+2][x] = '*';
+                occFields[y+2][x+1] = '*';
+                break;
+            default:
+                break;
+        }
+        return;
+    }
+    return;
+    
+}
+*/
+
+// Checks if given move is legal, depending on the current block in play. 
 
 bool isLegalMove(int c, int y, int x) {
     if (isBlock) {
         if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0) 
-             || (c == 115 && y < 22 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0)
-             || (c == 100 && x < 22 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0)) {
+             || (c == 115 && y < HEIGHT-3 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0)
+             || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0 && occFields[y+1][x+2] == 0)) {
                  return true;
-             }
+        }
         else {
             return false;
         }
     }
     else if (isL) {
         if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0 && occFields[y+2][x-1] == 0) 
-    || (c == 115 && y < 21 && occFields[y+3][x] == 0 && occFields[y+3][x+1] == 0)
-    || (c == 100 && x < 22 && occFields[y][x+2] == 0)) {
+    || (c == 115 && y < HEIGHT-4 && occFields[y+3][x] == 0 && occFields[y+3][x+1] == 0)
+    || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0)) {
         return true;
-         }
+     }
+     else if (c == 108) {
+         return true;
+     }
     else {
         return false;
         }
     }
     else if (isInvL) {
-        if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0 && occFields[y+2][x-2] == 0)
-    || (c == 115 && y < 21 && occFields[y+3][x] == 0 && occFields[y+3][x-1] == 0)
-    || (c == 100 && x < 22 && occFields[y][x-2] == 0)) {
+        if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0 && occFields[y+2][x-3] == 0)
+    || (c == 115 && y < HEIGHT-4 && occFields[y+3][x] == 0 && occFields[y+3][x-1] == 0)
+    || (c == 100 && x < WIDTH-3 && occFields[y][x-2] == 0)) {
         return true;
          }
     else {
@@ -236,8 +326,8 @@ bool isLegalMove(int c, int y, int x) {
     }
     else if (isS) {
         if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0)
-        || (c == 115 && y < 22 && occFields[y+1][x] == 0 && occFields[y+1][x+1] == 0 && occFields[y+1][x-1] == 0)
-        || (c == 100 && x < 22 && occFields[y][x+1] == 0)) {
+        || (c == 115 && y < HEIGHT-3 && occFields[y+1][x] == 0 && occFields[y+1][x+1] == 0 && occFields[y+1][x-1] == 0)
+        || (c == 100 && x < WIDTH-3 && occFields[y][x+1] == 0)) {
             return true;
              }
         else {
@@ -246,41 +336,59 @@ bool isLegalMove(int c, int y, int x) {
         }
     else if (isInvS) {
         if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0) 
-        || (c == 115 && y < 22 && occFields[y+1][x] == 0 && occFields[y+1][x+1] == 0 && occFields[y+1   ][x-1] == 0)
-        || (c == 100 && x < 22 && occFields[y][x+1] == 0)) {
+        || (c == 115 && y < HEIGHT-3 && occFields[y+1][x] == 0 && occFields[y+1][x+1] == 0 && occFields[y+1   ][x-1] == 0)
+        || (c == 100 && x < WIDTH-3 && occFields[y][x+1] == 0)) {
             return true;
         }
     }
     else if (isLine) {
-        if ((c == 97 && x > 1 && occFields[y][x-1] == 0)
-        || (c == 115 && y < 22 && occFields[y+4][x] == 0)
-        || (c == 100 && x < 22 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0 && occFields[y+2][x+1] == 0 && occFields[y+3][x] == 0)) {
+        if ((c == 97 && x > 1 && occFields[y+1][x-2] == 0)
+        || (c == 115 && y < HEIGHT-3 && occFields[y+5][x] == 0)
+        || (c == 100 && x < WIDTH-3 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0 && occFields[y+2][x+1] == 0 && occFields[y+3][x] == 0)) {
             return true;
         }
     }
     else if (isT) {
-        if ((c == 97 && x > 1 && occFields[y][x-1] == 0)
-        || (c == 115 && y < 22 && occFields[y+4][x] == 0)
-        || (c == 100 && x < 22 && occFields[y][x+1] == 0 && occFields[y+1][x+1] == 0 && occFields[y+2][x+1] == 0 && occFields[y+3][x] == 0)) {
+        if ((c == 97 && x > 2 && occFields[y][x-2] == 0)
+        || (c == 115 && y < HEIGHT-3 && occFields[y+4][x] == 0)
+        || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0 && occFields[y+1][x+2] == 0 && occFields[y+2][x+2] == 0 && occFields[y+3][x] == 0)) {
             return true;
         }
     }
     return false;
 }
 // Checks if a new block should come into play
-// y+n must part of the whole expansion
 bool shallGetNewBlock(int y, int x) {
-    if (((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) && isBlock))) || 
-            ((((y+3 >= 24 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0))) && isL))) ||
-            ((((y+3 >= 24 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0))) && isInvL))) ||
-            ((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0))) && isS))) ||
-            ((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+2][x+1] != 0))) && isInvS))) ||
-            ((((y+4 >= 24 || ((occFields[y+4][x] != 0))) && isLine)))||
-            ((((y+2 >= 24 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))))) {
+    if (((((y+2 >= HEIGHT-1| ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) && isBlock))) || 
+            ((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0))) && isL))) ||
+            ((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0))) && isInvL))) ||
+            ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+1][x+1] != 0))) && isS))) ||
+            ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0 || occFields[y+2][x+1] != 0))) && isInvS))) ||
+            ((((y+4 >= HEIGHT-1 || ((occFields[y+4][x] != 0))) && isLine)))||
+            ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))))) {
                 return true;
             }
     else {
         return false;
+    }
+}
+// Delete rows if they are fully occupied and returns the amount of deleted lines (why return amount of deleted lines?)
+int deleteRows() {
+    int linesToDelete = 0;
+    for (int i = 0; i < HEIGHT+1; i++) {
+        int c = 0;
+        for (int j = 0; j < WIDTH+1; j++) {
+            if (occFields[i][j] != 0) {
+                c++;
+            }
+        }
+        if (c >= WIDTH-2) {
+            for (int h = 0; h < WIDTH+1; h++) {
+                occFields[i][h] = 0;
+            }
+            linesToDelete++;
+        }
+        return linesToDelete;
     }
 }
 
@@ -314,19 +422,27 @@ void insertBlock(char map[HEIGHT][WIDTH], int y, int x) {
         insertLine(map, y, x);
     }
     else if (isT) {
-        insertT(map, y, x);
+        insertT(map,  y, x);
     }
 }
-// NOTE TO SELF: CHECK COLISION
+
+void turn() {
+    if (turnCount <= 2) {
+        turnCount++;
+    }
+    else {
+        turnCount = 0;
+    }
+}
+
+// NOTE TO SELF: CHECK COLLISION
 // The main game-loop
 int main() {
     enableRawMode();
     char map[HEIGHT][WIDTH];
     int c = 0;
-    int y = 10;
+    int y = 0;
     int x = 10;
-    //int coord3 = 0;
-    //int coord4 = 0;
     int s = 100000;
     bool shallPlay = true;
     char command[6] = "clear";
@@ -339,8 +455,7 @@ int main() {
         setAllFalse();
         time_t t;
         srand((unsigned) time(&t));
-        r = rand() % 7;
-        printf("r is: %d", r);
+        r = rand() % 2;
         switch(r) {
             case 0:
                 isBlock = true;
@@ -348,6 +463,7 @@ int main() {
             case 1:
                  isL = true;
                 break;
+            /*
             case 2:
                 isInvL = true;
                 break;
@@ -363,12 +479,15 @@ int main() {
             case 6: 
                 isT = true;
                 break;
+            */
            default:
                 printf("This shold not happen");
                 break;
             }
-        y = 5;
-        x = 10;
+        y = 0;
+        x = (WIDTH/2);
+        // Turn count is the current way in which a block is turned (0-3).
+        turnCount = 0;
         getNewBlock = false;
         // When this loop terminates, the given block is done and a new must be initialized
         // Make one function insertPiece to call?
@@ -377,9 +496,10 @@ int main() {
             initMap(map);
             insertBlock(map, y, x);
             printArr(map);
-            if ((y < 26 && isBlock) || (y < 25 && isL) || (y < 25 && isInvL) || (y < 26 && isS) || (y < 26 && isInvS) || (y < 24 && isLine) || (y < 26 && isT)) {
+            if ((y < HEIGHT+1 && isBlock) || (y < HEIGHT && isL) || 
+            (y < HEIGHT && isInvL) || (y < HEIGHT+1 && isS) || (y < HEIGHT+1 && isInvS) || (y < HEIGHT-1 && isLine) || (y < HEIGHT-1 && isT)) {
               input(115, &y, &x);
-            }
+            }   
             initscr();
             timeout(0);
             c = getch();
@@ -391,11 +511,12 @@ int main() {
                 getNewBlock = true;
                 insertOccField(y, x);
             }
+            deleteRows();
             initMap(map);
             insertBlock(map, y, x);
             system(command);
             printArr(map);
             wait(s);
         }
-    }
+    }   
 }

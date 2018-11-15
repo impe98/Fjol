@@ -80,28 +80,112 @@ int insertBox(char arr[HEIGHT][WIDTH], int y, int x) {
 
 // Inserts an L with the given coordinates x and y
 int insertL(char arr[HEIGHT][WIDTH], int y, int x) {
-    arr[y][x] = '*';
-    arr[y+1][x] = '*';
-    arr[y+2][x] = '*';
-    arr[y+2][x+1]   = '*';
-    return 0;
+    switch(turnCount) {
+        case 0:
+            arr[y][x] = '*';
+            arr[y+1][x] = '*';
+            arr[y+2][x] = '*';
+            arr[y+2][x+1]   = '*';
+            break;
+            return 0;
+        case 1:
+            arr[y][x+2] = '*';
+            arr[y][x+1] = '*';
+            arr[y][x] = '*';
+            arr[y+1][x]   = '*';
+            break;
+            return 0;
+        case 2:
+            arr[y+2][x+1] = '*';
+            arr[y+1][x+1] = '*';
+            arr[y][x+1] = '*';
+            arr[y][x]   = '*';
+            break;
+            return 0;
+        case 3:
+            arr[y+2][x] = '*';
+            arr[y+2][x+1] = '*';
+            arr[y+2][x+2] = '*';
+            arr[y+1][x+2]   = '*';
+            break;
+            return 0;
+        default:
+            break;
+            return 0;
+    }
 }
 // Inserts an inverse L with the given coordinates x and y 
 int insertInvL(char arr[HEIGHT][WIDTH], int y, int x) {
-    arr[y][x] = 'o';
-    arr[y+1][x] = 'o';
-    arr[y+2][x] = 'o';
-    arr[y+2][x-1] = 'o';
-    return 0;
+     switch(turnCount) {
+            case 0:
+                arr[y][x] = 'o';
+                arr[y+1][x] = 'o';
+                arr[y+2][x] = 'o';
+                arr[y+2][x-1] = 'o';
+                return 0;
+                break;
+            case 1:
+                arr[y+2][x+1] = 'o';
+                arr[y+2][x] = 'o';
+                arr[y+2][x-1] = 'o';
+                arr[y+1][x-1] = 'o';
+                return 0;
+                break;
+            case 2:
+                arr[y+2][x-1] = 'o';
+                arr[y+1][x-1] = 'o';
+                arr[y][x-1] = 'o';
+                arr[y][x] = 'o';
+                return 0;
+                break;
+            case 3:
+                arr[y+1][x] = 'o';
+                arr[y+1][x+1] = 'o';
+                arr[y+1][x-1] = 'o';
+                arr[y+2][x+1] = 'o';
+                return 0;
+                break;
+            default:
+                break;
+                return 0;
+        }   
 }
 
 // Inserts an s with the given coordinates x and y
 int insertS(char arr[HEIGHT][WIDTH], int y, int x) {
-    arr[y][x] = 'Q';
-    arr[y][x+1] = 'Q';
-    arr[y+1][x] = 'Q';
-    arr[y+1][x-1] = 'Q';
-    return 0;
+    switch(turnCount) {
+            case 0:
+                arr[y][x] = 'Q';
+                arr[y][x+1] = 'Q';
+                arr[y+1][x] = 'Q';
+                arr[y+1][x-1] = 'Q';
+                return 0; 
+                break;
+            case 1:
+                arr[y][x] = 'Q';
+                arr[y+1][x] = 'Q';
+                arr[y][x-1] = 'Q';
+                arr[y-1][x-1] = 'Q';
+                return 0; 
+                break;
+            case 2:
+                arr[y][x] = 'Q';
+                arr[y][x+1] = 'Q';
+                arr[y+1][x] = 'Q';
+                arr[y+1][x-1] = 'Q';
+                return 0; 
+                break;
+            case 3:
+                arr[y][x] = 'Q';
+                arr[y+1][x] = 'Q';
+                arr[y][x-1] = 'Q';
+                arr[y-1][x-1] = 'Q';
+                return 0; 
+                break;
+            default:
+                return 1;
+                break;
+    }
 }
 
 int insertInvS(char arr[HEIGHT][WIDTH], int y, int x) {
@@ -154,7 +238,6 @@ int input(int c, int* y, int* x) {
         return 0;
     }
     else if (c == 108) {
-        //turnBlock((*y), (*x));
         turn();
     }
     else {
@@ -165,7 +248,6 @@ int input(int c, int* y, int* x) {
 
 // Sets coordinates in the array OccFields as a char, to set them as occupied
 int insertOccField(int y, int x) {
-    int t = turnCount;
     if (isBlock) {
         occFields[y][x] = '#';
         occFields[y][x+1] = '#';
@@ -174,7 +256,7 @@ int insertOccField(int y, int x) {
         return 0;
     }
     else if (isL) {
-        switch(t) {
+        switch(turnCount) {
             case 0:
                 occFields[y][x] = '*';
                 occFields[y+1][x] = '*';
@@ -184,7 +266,7 @@ int insertOccField(int y, int x) {
                 break;
             case 1:
                 occFields[y][x+2] = '*';
-                occFields[y][x+1] = '*';
+                  occFields[y][x+1] = '*';
                 occFields[y][x] = '*';
                 occFields[y+1][x] = '*';
                 return 0;
@@ -204,23 +286,79 @@ int insertOccField(int y, int x) {
                 return 0;
                 break;
             default:
-                return 0;
+                return 1;
                 break;
         }
     }
     else if (isInvL) {
-        occFields[y][x] = 'o';
-        occFields[y+1][x] = 'o';
-        occFields[y+2][x] = 'o';
-        occFields[y+2][x-1] = 'o';
-        return 0;
+        switch(turnCount) {
+            case 0:
+                occFields[y][x] = 'o';
+                occFields[y+1][x] = 'o';
+                occFields[y+2][x] = 'o';
+                occFields[y+2][x-1] = 'o';
+                return 0;
+                break;
+            case 1:
+                occFields[y+2][x+1] = 'o';
+                occFields[y+2][x] = 'o';
+                occFields[y+2][x-1] = 'o';
+                occFields[y+1][x-1] = 'o';
+                return 0;
+                break;
+            case 2:
+                occFields[y+2][x-1] = 'o';
+                occFields[y+1][x-1] = 'o';
+                occFields[y][x-1] = 'o';
+                occFields[y][x] = 'o';
+                return 0;
+                break;
+            case 3:
+                occFields[y+1][x] = 'o';
+                occFields[y+1][x+1] = 'o';
+                occFields[y+1][x-1] = 'o';
+                occFields[y+2][x+1] = 'o';
+                return 0;
+                break;
+            default:
+                return 1;
+                break;
+        }       
     }
     else if (isS) {
-        occFields[y][x] = 'Q';
-        occFields[y][x+1] = 'Q';
-        occFields[y+1][x] = 'Q';
-        occFields[y+1][x-1] = 'Q';
-        return 0;   
+        switch(turnCount) {
+            case 0:
+                occFields[y][x] = 'Q';
+                occFields[y][x+1] = 'Q';
+                occFields[y+1][x] = 'Q';
+                occFields[y+1][x-1] = 'Q';
+                return 0; 
+                break;
+            case 1:
+                occFields[y][x] = 'Q';
+                occFields[y+1][x] = 'Q';
+                occFields[y][x-1] = 'Q';
+                occFields[y-1][x-1] = 'Q';
+                return 0; 
+                break;
+            case 2:
+                occFields[y][x] = 'Q';
+                occFields[y][x+1] = 'Q';
+                occFields[y+1][x] = 'Q';
+                occFields[y+1][x-1] = 'Q';
+                return 0; 
+                break;
+            case 3:
+                occFields[y][x] = 'Q';
+                occFields[y+1][x] = 'Q';
+                occFields[y][x-1] = 'Q';
+                occFields[y-1][x-1] = 'Q';
+                return 0; 
+                break;
+            default:
+                return 1;
+                break;
+        }
     }
     else if (isInvS) {
         occFields[y][x] = 'D';
@@ -244,49 +382,6 @@ int insertOccField(int y, int x) {
         return 0;
     }
 }
-
-// Turns a block. turnCount is only incremented once the block has been turned.
-/*
-void turnBlock(int y, int x) {
-    int t = turnCount;
-    if (isBlock) {
-        return;
-    }
-    if (isL) {
-        switch(t) {
-            case 0: 
-                occFields[y][x+2] = '*';
-                occFields[y][x+1] = '*';
-                occFields[y][x] = '*';
-                occFields[y+1][x] = '*';
-                break;
-            case 1:
-                occFields[y+2][x+1] = '*';
-                occFields[y+1][x+1] = '*';
-                occFields[y][x+1] = '*';
-                occFields[y][x] = '*';
-                break;
-            case 2:
-                occFields[y+2][x] = '*';
-                occFields[y+2][x+1] = '*';
-                occFields[y+2][x+2] = '*';
-                occFields[y+1][x+2] = '*';
-                break;
-            case 3:
-                occFields[y][x] = '*';
-                occFields[y+1][x] = '*';
-                occFields[y+2][x] = '*';
-                occFields[y+2][x+1] = '*';
-                break;
-            default:
-                break;
-        }
-        return;
-    }
-    return;
-    
-}
-*/
 
 // Checks if given move is legal, depending on the current block in play. 
 
@@ -320,6 +415,9 @@ bool isLegalMove(int c, int y, int x) {
     || (c == 100 && x < WIDTH-3 && occFields[y][x-2] == 0)) {
         return true;
          }
+    else if (c == 108) {
+        return true;
+    }
     else {
         return false;
         }
@@ -330,6 +428,9 @@ bool isLegalMove(int c, int y, int x) {
         || (c == 100 && x < WIDTH-3 && occFields[y][x+1] == 0)) {
             return true;
              }
+        else if (c == 108) {
+            return true;
+        }
         else {
             return false;
              }
@@ -359,10 +460,107 @@ bool isLegalMove(int c, int y, int x) {
 }
 // Checks if a new block should come into play
 bool shallGetNewBlock(int y, int x) {
-    if (((((y+2 >= HEIGHT-1| ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) && isBlock))) || 
-            ((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0))) && isL))) ||
-            ((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0))) && isInvL))) ||
-            ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+1][x+1] != 0))) && isS))) ||
+    if (isBlock) {
+        if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) {
+            return true;
+        }
+    }
+    else if (isL) {
+        switch(turnCount) {
+            case 0:
+                if ((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0)))) {
+                    return true;
+                }
+                break;  
+                return false;
+            case 1:
+                if ((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x+1] != 0 || occFields[y+1][x+2] !=0 )))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 2:
+                if ((y+3 >= HEIGHT-1 || ((occFields[y+1][x] != 0 || occFields[y+3][x+1] != 0)))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 3:
+                if ((y+3 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x+2])))) {
+                    return true;
+                }
+                break;
+                return false;
+            default:
+                return false;
+        }
+    }
+    else if (isInvL) {
+        switch(turnCount) {
+            case 0:
+                if ((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0)))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 1:
+                if ((y+3 >= HEIGHT-1 || ((occFields[y+3][x-1] != 0 || occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0)))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 2:
+                if ((y+3 >= HEIGHT-1 || (occFields[y+1][x] != 0 || occFields[y+3][x-1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 3:
+                if ((y+3 >= HEIGHT-1 || (occFields[y+3][x+1] != 0 || occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            default:
+                break;
+                return false;
+        }
+    }
+    else if(isS) {
+        switch(turnCount) {
+            case 0:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+1][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 1:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 2:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+1][x+1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            case 3:
+                if (y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0))) {
+                    return true;
+                }
+                break;
+                return false;
+            default:
+                break;
+                return false;
+        }
+    }
+    if (((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0))) && isBlock))) || 
+            //((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x+1] != 0))) && isL))) ||
+            //((((y+3 >= HEIGHT-1 || ((occFields[y+3][x] != 0 || occFields[y+3][x-1] != 0))) && isInvL))) ||
+            //((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x-1] != 0 || occFields[y+1][x+1] != 0))) && isS))) ||
             ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+1][x-1] != 0 || occFields[y+2][x+1] != 0))) && isInvS))) ||
             ((((y+4 >= HEIGHT-1 || ((occFields[y+4][x] != 0))) && isLine)))||
             ((((y+2 >= HEIGHT-1 || ((occFields[y+2][x] != 0 || occFields[y+2][x+1] != 0 || occFields[y+2][x-1] != 0)) && isT))))) {
@@ -455,7 +653,7 @@ int main() {
         setAllFalse();
         time_t t;
         srand((unsigned) time(&t));
-        r = rand() % 2;
+        r = rand() % 4;
         switch(r) {
             case 0:
                 isBlock = true;
@@ -463,13 +661,13 @@ int main() {
             case 1:
                  isL = true;
                 break;
-            /*
             case 2:
                 isInvL = true;
                 break;
             case 3:
                 isS = true;
                 break;
+            /*
             case 4:
                 isInvS = true;
                 break;
@@ -518,5 +716,6 @@ int main() {
             printArr(map);
             wait(s);
         }
-    }   
+    }
+    disableRawMode();  
 }

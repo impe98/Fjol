@@ -350,7 +350,7 @@ int insertOccField(int y, int x) {
                 break;
             case 1:
                 occFields[y][x+2] = '*';
-                  occFields[y][x+1] = '*';
+                occFields[y][x+1] = '*';
                 occFields[y][x] = '*';
                 occFields[y+1][x] = '*';
                 return 0;
@@ -556,26 +556,86 @@ int insertOccField(int y, int x) {
 bool isLegalMove(int c, int y, int x) {
     if (isBlock) {
         if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0) 
-             || (c == 115 && y < HEIGHT-3 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0)
-             || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0 && occFields[y+1][x+2] == 0)) {
-                 return true;
+            || (c == 115 && y < HEIGHT-3 && occFields[y+2][x] == 0 && occFields[y+2][x+1] == 0)
+            || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0 && occFields[y+1][x+2] == 0)) {
+                return true;
         }
         else {
             return false;
-        }
+        }  
     }
     else if (isL) {
-        if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0 && occFields[y+2][x-1] == 0) 
-    || (c == 115 && y < HEIGHT-4 && occFields[y+3][x] == 0 && occFields[y+3][x+1] == 0)
-    || (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0)) {
-        return true;
-     }
-     else if (c == 108 || c == 107) {
-         return true;
-     }
-    else {
-        return false;
+        if (turnCount == 0) {
+            if ((c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0 && occFields[y+2][x-1] == 0)) {
+                return true;
+            }
+            else if (c == 115 && y < HEIGHT-2 && occFields[y+3][x] == 0 && occFields[y+3][x+1] == 0) {
+                return true;
+            }
+            else if (c == 100 && x < WIDTH-3 && occFields[y+2][x+2] == 0 && occFields[y+1][x+1] == 0 && occFields[y][x+1] == 0) {
+                return true;
+            }
+            else if (c == 107 || c == 108) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
+        else if (turnCount == 1) {
+        if (c == 97 && x > 1 && occFields[y][x-1] == 0 && occFields[y+1][x-1] == 0) {
+            return true;
+        }
+        else if (c == 115 && y < HEIGHT-2 && occFields[y+2][x] == 0 && occFields[y+1][x+1] == 0 && occFields[y+1][x+2] == 0) {
+            return true;
+        }
+        else if (c == 100 && x < WIDTH-4 && occFields[y][x+3] == 0 && occFields[y+1][x+1] == 0) {
+            return true;
+        }
+        else if (c == 107 || c == 108) {
+            return true;
+        }
+        else {
+            return false;
+            }
+        }
+        else if (turnCount == 2) {
+            if (c == 97 && x > 1 && occFields[y][x+1] == 0 && occFields[y+1][x] == 0 && occFields[y+2][x] == 0) {
+                return true;
+            }
+            else if (c == 115 && y < HEIGHT-3 && occFields[y+1][x] == 0 && occFields[y+3][x+1] == 0) {
+                return true;
+            }
+            else if (c == 100 && x < WIDTH-3 && occFields[y][x+2] == 0 && occFields[y+1][x+2] == 0 && occFields[y+2][x+2] == 0) {
+                return true;
+            }
+            else if (c == 107 || c == 108) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (turnCount == 3) {
+            if (c == 97 && x > 1 && occFields[y+2][x-1] == 0 && occFields[y+1][x+2] == 0) {
+                return true;
+            }
+            else if (c == 115 && y < HEIGHT-2 && occFields[y+3][x] == 0 && occFields[y+3][x+1] == 0 && occFields[y+3][x+2] == 0) {
+                return true;
+            }
+            else if (c == 100 && x < WIDTH-4 && occFields[y+1][x+3] == 0 && occFields[y+2][x+3] == 0) {
+                return true;
+            }
+            else if (c == 107 || c == 108) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }       
     }
     else if (isInvL) {
         if ((c == 97 && x > 2 && occFields[y][x-2] == 0 && occFields[y+1][x-2] == 0 && occFields[y+2][x-3] == 0)
@@ -859,8 +919,8 @@ int deleteRows() {
             }
             linesToDelete++;
         }
-        return linesToDelete;
     }
+        return linesToDelete;
 }
 
 // All bools are set to false
@@ -933,6 +993,7 @@ int main() {
     int y = 0;
     int x = 10;
     int s = 100000;
+    int s2 = 300000;
     bool shallPlay = true;
     char command[6] = "clear";
     int w;
@@ -944,11 +1005,12 @@ int main() {
         setAllFalse();
         time_t t;
         srand((unsigned) time(&t));
-        r = rand() % 7;
+        r = rand() % 1;
         switch(r) {
             case 0:
                 isBlock = true;
                 break;
+            /*
             case 1:
                  isL = true;
                 break;
@@ -967,6 +1029,7 @@ int main() {
             case 6: 
                 isT = true;
                 break;
+            */
            default:
                 printf("This shold not happen");
                 break;
@@ -997,8 +1060,10 @@ int main() {
             if (shallGetNewBlock(y, x)) {
                 getNewBlock = true;
                 insertOccField(y, x);
+                if (deleteRows() != 0) {
+                    wait(s2);
+                }
             }
-            deleteRows();
             initMap(map);
             insertBlock(map, y, x);
             system(command);

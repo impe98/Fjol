@@ -1005,12 +1005,11 @@ int main() {
         setAllFalse();
         time_t t;
         srand((unsigned) time(&t));
-        r = rand() % 1;
+        r = rand() % 7;
         switch(r) {
             case 0:
                 isBlock = true;
                 break;
-            /*
             case 1:
                  isL = true;
                 break;
@@ -1029,7 +1028,6 @@ int main() {
             case 6: 
                 isT = true;
                 break;
-            */
            default:
                 printf("This shold not happen");
                 break;

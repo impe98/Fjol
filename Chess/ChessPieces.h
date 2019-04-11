@@ -1,26 +1,22 @@
+#ifndef CHESSPIECES_H
+#define CHESSPIECES_H
 #include <stdio.h>
 #include <stdlib.h>
-//Initialize Chess Pieces
+#include <string.h>
 
-void chessPiecesWhitePawn();
-void chessPiecesBlackPawn();
-void chessPiecesWhiteRook();
-void chessPiecesBlackRook();
-void chessPiecesWhiteKnight();
-void chessPiecesBlackKnight();
-void chessPiecesWhiteBishop();
-void chessPiecesBlackBishop();
-void chessPiecesWhiteQueen();
-void chessPiecesBlackQueen();
-void chessPiecesWhiteKing();
-void chessPiecesBlackKing();
+//Initialize Chess Pieces
+struct chessPiece *chessPiecesCreate(char* name, char block, int i, char* colour);
 void chessPiecesArray();
-typedef struct
+void chessPiecesInit();
+
+struct chessPiece
 {
     char* pieceName;
     bool alive;
-    bool black;
+    char* colour;
     char block;
 }chessPiece;
 
-chessPiece* chessPieces[32];
+struct chessPiece *chessPieces[32];
+
+#endif

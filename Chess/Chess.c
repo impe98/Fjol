@@ -1,14 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "ChessPieces.h"
 
 #define HEIGHT 26
 #define WIDTH 26
 
-int main(int argc, char** argv) {
-    chessPiecesArray;
+void freeStuff() {
     for (int i = 0; i < 32; i++) {
-        printf("Name is: %c\n", chessPieces[i]->block);
+        free(chessPieces[i]);
     }
+}
+
+int main(int argc, char** argv) {   
+    chessPiecesInit();
+    chessPiecesArray();
+    for (int i = 0; i < 32; i++) {
+        printf("Name is: %s\n", chessPieces[i]->pieceName);
+    }
+    freeStuff();
+    return 0;
 }

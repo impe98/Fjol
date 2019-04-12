@@ -9,6 +9,7 @@ struct chessPiece *chessPiecesCreate(char* name, char block, int i, char* colour
 void chessPiecesArray();
 void chessPiecesInit();
 
+//Create Chess Piece Struct
 struct chessPiece
 {
     char* pieceName;
@@ -17,6 +18,7 @@ struct chessPiece
     char block;
 }chessPiece;
 
+//Collection of Chess pieces
 struct chessPiece *chessPieces[32];
 
 #endif

@@ -68,4 +68,24 @@ void insertPiece(int i) {
     }
 }
 
-void printBoard();
+void printSquare(int i, int j) {
+    printf(" ");
+    printf("___\n");
+    printf("|   |\n");
+    if (board[i][j] != 0) {
+        printf("| %c |\n", board[i][j]->block);
+    }
+    else {
+        printf("|   |\n");
+    }
+    printf("|___|");
+    printf(" ");
+}
+
+void printBoard() {
+   for (int i = 0; i < 8; i++) {
+       for (int j = 0; j < 8; j++) {
+           printSquare(i, j);
+       }
+   }
+}

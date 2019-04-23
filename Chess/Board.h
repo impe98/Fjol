@@ -7,6 +7,7 @@
 void createBoard();
 void insertPiece(int i);
 void printBoard();
+void printSquare();
 
 struct chessPiece *board[8][8];
 

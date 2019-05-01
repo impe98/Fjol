@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <curses.h>
+#include <ncurses.h>
 
 //Initialize Chess Pieces
 struct chessPiece *chessPiecesCreate(char* name, char block, int i, char* colour);

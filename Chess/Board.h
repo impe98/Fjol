@@ -3,11 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <curses.h>
+#include <ncurses.h>
 
 void createBoard();
 void insertPiece(int i);
 void printBoard();
-void printSquare();
+void printRow();
 
 struct chessPiece *board[8][8];
 

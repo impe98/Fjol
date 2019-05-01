@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <curses.h>
+#include <ncurses.h>
 #include "ChessPieces.h"
 #include "Board.h"
+#include "Move.h"
 
-void createBoard() {
+void createBoard() { //Create the board to later fill with chessPieces
     for (int i = 0; i < 32; i++) {
         insertPiece(i);
     }
@@ -17,7 +20,7 @@ void createBoard() {
     }
 }
 
-void insertPiece(int i) {
+void insertPiece(int i) { //Inserts pieces onto the board at the start of the game
     if (i < 0) { //Illegal piece
         printf("None-legal piece inserted");
     }
@@ -68,24 +71,30 @@ void insertPiece(int i) {
     }
 }
 
-void printSquare(int i, int j) {
-    printf(" ");
-    printf("___\n");
-    printf("|   |\n");
-    if (board[i][j] != 0) {
-        printf("| %c |\n", board[i][j]->block);
+void printRow(int i) { //Print each row of the board
+    for (int k = 0; k < 11; k++) {
+        printf("___");
     }
-    else {
-        printf("|   |\n");
+    printf("\n");
+    for (int j = 0; j < 8; j++) {
+        if (board[i][j] != 0) { //Print the character representing each piece on each inhabited square  
+            printf("| %c ", board[i][j]->block); 
+        }
+        else {
+            printf("|   ");
+        }
     }
-    printf("|___|");
-    printf(" ");
+    printf("|");
+    printf("\n");
+    for (int l = 0; l < 8; l++) {
+        printf("|___");
+    }
+    printf("|");
 }
 
-void printBoard() {
+void printBoard() { //print entire board by calling the printRow function eight times
    for (int i = 0; i < 8; i++) {
-       for (int j = 0; j < 8; j++) {
-           printSquare(i, j);
-       }
+       printRow(i);
+       printf("\n");
    }
 }

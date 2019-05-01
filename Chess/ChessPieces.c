@@ -4,8 +4,11 @@
 #include <string.h>
 #include "ChessPieces.h"
 #include "Board.h"
+#include "Move.h"
+#include <curses.h>
+#include <ncurses.h>
 
-// Insert Chesspiece into collection of chess-pieces
+// Insert Chesspiece into collection of chesspieces
 struct chessPiece *chessPiecesCreate(char *name, char block, int i, char* colour) {
     struct chessPiece *piece = malloc(sizeof(struct chessPiece));
     piece->pieceName = malloc(strlen(name)+1);
@@ -17,20 +20,20 @@ struct chessPiece *chessPiecesCreate(char *name, char block, int i, char* colour
     return piece;
 }
 
-//Initialize collection of chess-pieces
+//Initialize collection of chesspieces
 void chessPiecesInit() {
     for (int i = 0; i < 32; i++) {
         chessPieces[i] = malloc(sizeof(struct chessPiece));
     }
 }
 
-//Fill up collection of chess-pieces
+//Fill up collection of chesspieces 
 void chessPiecesArray() {
     for (int i = 0; i < 8; i++) {//Insert White Pawns
-        chessPieces[i] = chessPiecesCreate("Pawn", 'p', i, "White");
+        chessPieces[i] = chessPiecesCreate("Pawn", 'l', i, "White");
     }
     for (int i = 8; i < 16; i++) {//Insert Black Pawns
-        chessPieces[i] = chessPiecesCreate("Pawn", 'P', i, "Black");
+        chessPieces[i] = chessPiecesCreate("Pawn", 'L', i, "Black");
     }
     for (int i = 16; i < 18; i++) {//Insert White Rooks
        chessPieces[i] = chessPiecesCreate("Rook", 'r', i, "White");

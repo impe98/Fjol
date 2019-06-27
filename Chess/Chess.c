@@ -26,13 +26,18 @@ void freeStuff() {
 }
 
 int getMove() { //Get the coordinates for piece to move and to where
-    int i0 = getchar();
-    int j0 = getchar();
-    int i1 = getchar();
-    int j1 = getchar();
-    return i0, j0, i1, j1;
+    int i0,j0,i1,j1;
+    scanf(" %d", &i0);
+    scanf(" %d", &j0);
+    scanf(" %d", &i1);
+    scanf(" %d", &j1);
+    printf("Integers are: %d, %d, %d, %d", i0, j0, i1, j1);
+    makeMove(i0,j0,i1,j1);
+    return 0;
 }
-
+//Function to determine if a move is legal or not for the piece in question 
+bool legalMove(int i0, int j0, int i1, int j1) {
+}
 //Main game-loop
 int main(int argc, char** argv) {
     int i0, j0, i1, j1;

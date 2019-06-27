@@ -9,6 +9,9 @@
 #include "Move.h"
 //TODO: How to handle empty squares? Currently: Empty squares are 0 
 //TODO: getMove only accepts two inputs (newline is perhaps seen as input?)
+//TODO: Ensure only legal moves be accepted 
+//TODO: Clean up all dependencies
+//TODO: Find way to represent color of 
 
 // Free everything once done (split into several functions as to free along the way?)
 void freeStuff() {
@@ -40,9 +43,9 @@ int main(int argc, char** argv) {
         createBoard(board);       // This board will be modified throughout the game
     }
     while (play) {
-        printBoard();
-        printf("\n");
-        getMove();
+        printBoard(); //Print the board after each move
+        printf("\n"); //Newline to distinguish each board from the last
+        getMove(); //Get the coordinates for each move 
     }
     return 0;
 }

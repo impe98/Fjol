@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS =-Wall -Wextra -pedantic -g -O0 -std=gnu11 -ggdb
-DEPS = ChessPieces.h Board.h Move.h
+DEPS = ChessPieces.h Board.h Move.h Chess.h
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

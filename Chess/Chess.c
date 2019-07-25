@@ -8,11 +8,13 @@
 #include "Board.h"
 #include "Move.h"
 #include "Chess.h"
+
 //TODO: How to handle empty squares? Currently: Empty squares are 0 
 //TODO: getMove only accepts two inputs (newline is perhaps seen as input?)
 //TODO: Ensure only legal moves be accepted 
 //TODO: Clean up all dependencies
 //TODO: Find way to represent color of squares
+//TODO: Define macros as to make funciton calls more manageable 
 
 // Free everything once done (split into several functions as to free along the way?)
 void freeStuff() {

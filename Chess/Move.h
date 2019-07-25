@@ -8,5 +8,8 @@
 #include <ncurses.h>
 
 void makeMove(int i, int j, int i2, int j2);
+bool legalPieceMove(int i0, int j0, int i1, int j1);
+bool legalMovePawn(int i0, int j0, int i1, int j1);
+int getMove();
 
 #endif

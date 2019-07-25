@@ -5,6 +5,7 @@
 #include "ChessPieces.h"
 #include "Board.h"
 #include "Move.h"
+#include "Chess.h"
 #include <curses.h>
 #include <ncurses.h>
 

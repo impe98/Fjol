@@ -6,6 +6,7 @@
 #include "ChessPieces.h"
 #include "Board.h"
 #include "Move.h"
+#include "Chess.h"
 
 void createBoard() { //Create the board to later fill with chessPieces
     for (int i = 0; i < 32; i++) {

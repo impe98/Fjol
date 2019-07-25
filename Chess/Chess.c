@@ -7,11 +7,12 @@
 #include "ChessPieces.h"
 #include "Board.h"
 #include "Move.h"
+#include "Chess.h"
 //TODO: How to handle empty squares? Currently: Empty squares are 0 
 //TODO: getMove only accepts two inputs (newline is perhaps seen as input?)
 //TODO: Ensure only legal moves be accepted 
 //TODO: Clean up all dependencies
-//TODO: Find way to represent color of 
+//TODO: Find way to represent color of squares
 
 // Free everything once done (split into several functions as to free along the way?)
 void freeStuff() {
@@ -25,22 +26,10 @@ void freeStuff() {
     }
 }
 
-int getMove() { //Get the coordinates for piece to move and to where
-    int i0,j0,i1,j1;
-    scanf(" %d", &i0);
-    scanf(" %d", &j0);
-    scanf(" %d", &i1);
-    scanf(" %d", &j1);
-    printf("Integers are: %d, %d, %d, %d", i0, j0, i1, j1);
-    makeMove(i0,j0,i1,j1);
-    return 0;
-}
-//Function to determine if a move is legal or not for the piece in question 
-bool legalMove(int i0, int j0, int i1, int j1) {
-}
 //Main game-loop
 int main(int argc, char** argv) {
     int i0, j0, i1, j1;
+    turnCount = 0;
     bool play = true; //Bool which determines when the game is done
     chessPiecesInit();//Create collection of pieces
     chessPiecesArray(); //Create Collection of Pieces

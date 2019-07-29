@@ -15,5 +15,7 @@ int getMove();
 bool empty(int r1, int c1);
 bool opponent(int r0, int c0, int r1, int c1);
 bool legalMoveRook(int r0, int c0, int r1, int c1);
+bool blockedPawn(int r0, int c0, int r1, int c1);
+bool blockedRook(int r0, int c0, int r1, int c1);
 
 #endif
